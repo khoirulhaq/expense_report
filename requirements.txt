@@ -1,4 +1,4 @@
-matplotlib==1.5.1
+matplotlib
 streamlit==1.13.1
 pandas==1.4.2
 plotly-express==0.8.3
