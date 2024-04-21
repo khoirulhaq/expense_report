@@ -1,5 +1,5 @@
 matplotlib
-pandas==1.4.2
-plotly-express==0.8.3
+pandas
+plotly-express
 datetime==4.4
-os==3.10.0
+
