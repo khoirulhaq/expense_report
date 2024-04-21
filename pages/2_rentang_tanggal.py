@@ -13,10 +13,13 @@ start_date = st.sidebar.date_input("Start date", datetime.now().replace(day=1))
 end_date = st.sidebar.date_input("End date", datetime.now())
 st.header('Riwayat Pengeluaran')
 filtered_df = settings.filter_data(df, start_date, end_date)
+# Menampilkan total pengeluaran sebagai teks di paling atas
+total_nominal = filtered_df['Nominal'].sum()
+st.write(f"**Total Pengeluaran:** Rp {total_nominal:,.2f}")
 st.write(filtered_df.sort_values(by='Tanggal', ascending=False))
 
 day_total_expenses = filtered_df.groupby('Tanggal')['Nominal'].sum().reset_index()
-day_title = 'Total Pengeluaran Harian'
+day_title = 'Grafik Pengeluaran Harian'
 
 #st.write(day_total_expenses)
 day_total_expenses.columns = ['Tanggal', 'Total Pengeluaran']
@@ -55,10 +58,3 @@ if note_to_search:
     st.write(f"{num_rows_to_display} baris pertama dari hasil pencarian:")
     #filtered_df['Tanggal'] = filtered_df['Tanggal'].dt.date
     st.write(filtered_df.head(num_rows_to_display).iloc[:, :-1])
-
-
-
-
-
-
-
