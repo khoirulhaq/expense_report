@@ -29,8 +29,14 @@ nama_bulan = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
 df_new['Bulan_nama'] = df_new['Bulan'].map(nama_bulan)
 df_new['Bulan_Tahun_nama'] = df_new['Bulan_nama'] + ' ' + df_new['Tahun'].astype(str)
 
+mean_nominal = df_new['Nominal'].mean()
+st.write(f"**Rata-Rata Pengeluaran Bulanan:** Rp {mean_nominal:,.2f}")
+
+median_nominal = df_new['Nominal'].median()
+st.write(f"**Median Pengeluaran Bulanan:** Rp {median_nominal:,.2f}")
+
 df_month = df_new.copy()
-fig_bar = px.bar(df_month, x='Bulan_Tahun_nama', y='Nominal', labels={'Nominal': 'Total Pengeluaran', 'Bulan_Tahun_nama': 'Bulan'}, title='Total Pengeluaran per Bulan')
+fig_bar = px.bar(df_month, x='Bulan_Tahun_nama', y='Nominal', labels={'Nominal': 'Total Pengeluaran', 'Bulan_Tahun_nama': 'Bulan'}, title='Grafik Pengeluaran per Bulan')
 st.plotly_chart(fig_bar)
 # =======================
 df_day = df.groupby(pd.Grouper(key='Tanggal', freq='D'))['Nominal'].sum().reset_index()
@@ -62,7 +68,11 @@ if note_to_search:
     filtered_df = df[df['Catatan'].str.lower().str.contains(note_to_search, na=False)]  # Use str.contains() for partial matches and case-insensitive search
     
     total_expenses = filtered_df['Nominal'].sum()
+    total_item = filtered_df['Nominal'].count()
+    
     st.write(f"Total pengeluaran untuk catatan yang mengandung '{note_to_search}': Rp {total_expenses:,}")
+    st.write(f"Total transaksi untuk catatan yang mengandung '{note_to_search}': {total_item:,}")
+
     # Display the number of rows found
     num_rows_to_display = st.number_input("Masukkan jumlah baris yang ingin ditampilkan:", min_value=1, max_value=len(df), value=3)
     num_rows_found = len(filtered_df)
@@ -71,12 +81,3 @@ if note_to_search:
     st.write(f"{num_rows_to_display} baris pertama dari hasil pencarian:")
     filtered_df['Tanggal'] = filtered_df['Tanggal'].dt.date
     st.write(filtered_df.head(num_rows_to_display).iloc[:, :-1])
-
-
-
-
-
-
-
-
-    
