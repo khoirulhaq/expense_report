@@ -1,5 +1,0 @@
-streamlit==1.13.1
-pandas==1.4.2
-plotly-express==0.8.3
-datetime==4.4
-os==3.10.0
